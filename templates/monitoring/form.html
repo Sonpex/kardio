@@ -1,0 +1,15 @@
+{% extends "monitoring/base.html" %}
+
+{% block content %}
+<div class="card">
+    <h2>{{ tytul }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="actions">
+            <button type="submit">Zapisz</button>
+            <a class="button secondary" href="/">Powrót</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

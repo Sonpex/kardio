@@ -1,0 +1,35 @@
+{% extends "monitoring/base.html" %}
+
+{% block content %}
+<div class="card">
+    <h2>Projekt Django dla tabel: Lekarz, Pacjent, Urządzenie, Pomiar</h2>
+    <p>Aplikacja zawiera modele, formularze do dodawania rekordów oraz widoki list danych zapisanych w bazie.</p>
+</div>
+
+<div class="grid" style="margin-top: 18px;">
+    <div class="menu-box">
+        <h3>Lekarze</h3>
+        <p>Dodawanie i przeglądanie lekarzy.</p>
+        <a class="button" href="/lekarze/dodaj/">Dodaj</a>
+        <a class="button secondary" href="/lekarze/">Pokaż listę</a>
+    </div>
+    <div class="menu-box">
+        <h3>Pacjenci</h3>
+        <p>Dodawanie pacjentów przypisanych do lekarza.</p>
+        <a class="button" href="/pacjenci/dodaj/">Dodaj</a>
+        <a class="button secondary" href="/pacjenci/">Pokaż listę</a>
+    </div>
+    <div class="menu-box">
+        <h3>Urządzenia</h3>
+        <p>Dodawanie urządzeń pomiarowych.</p>
+        <a class="button" href="/urzadzenia/dodaj/">Dodaj</a>
+        <a class="button secondary" href="/urzadzenia/">Pokaż listę</a>
+    </div>
+    <div class="menu-box">
+        <h3>Pomiary</h3>
+        <p>Wprowadzanie i wyświetlanie danych pomiarowych.</p>
+        <a class="button" href="/pomiary/dodaj/">Dodaj</a>
+        <a class="button secondary" href="/pomiary/">Pokaż listę</a>
+    </div>
+</div>
+{% endblock %}
