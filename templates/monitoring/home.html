@@ -1,35 +1,191 @@
 {% extends "monitoring/base.html" %}
+{% load static %}
 
 {% block content %}
-<div class="card">
-    <h2>Projekt Django dla tabel: Lekarz, Pacjent, Urządzenie, Pomiar</h2>
-    <p>Aplikacja zawiera modele, formularze do dodawania rekordów oraz widoki list danych zapisanych w bazie.</p>
-</div>
+<section class="hero">
+    <div class="row g-4 align-items-center">
+        <div class="col-lg-8">
+            <span class="pill">
+                <svg class="icon" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#clipboard-pulse"></use></svg>
+                Projekt CRUD dla danych kardiologicznych
+            </span>
+            <h1 class="display-6 mt-3">Zarządzanie lekarzami, pacjentami, urządzeniami i pomiarami w jednym miejscu</h1>
+            <p class="lead mb-0">Aplikacja pokazuje modele relacyjne, formularze zapisu danych i widoki list. Każdy pomiar może reprezentować zagregowane okno czasowe z parametrami takimi jak średnie tętno, RMSSD i SDNN.</p>
+            <div class="hero-actions">
+                <a class="btn btn-light" href="/pomiary/dodaj/"><svg class="icon" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#plus-circle-fill"></use></svg>Dodaj pomiar</a>
+                <a class="btn btn-outline-secondary" href="/pomiary/"><svg class="icon" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#table"></use></svg>Zobacz listę pomiarów</a>
+            </div>
+            <div class="hero-metrics">
+                <span class="metric-chip"><svg class="icon" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#person-badge"></use></svg>{{ liczba_lekarzy }} lekarzy</span>
+                <span class="metric-chip"><svg class="icon" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#people-fill"></use></svg>{{ liczba_pacjentow }} pacjentów</span>
+                <span class="metric-chip"><svg class="icon" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#cpu-fill"></use></svg>{{ liczba_urzadzen }} urządzeń</span>
+                <span class="metric-chip"><svg class="icon" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#activity"></use></svg>{{ liczba_pomiarow }} pomiarów</span>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card border-0 shadow">
+                <div class="card-body">
+                    <div class="section-title">
+                        <svg class="icon icon-lg" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#heart-pulse"></use></svg>
+                        <h3 class="mb-0">Funkcje w aktualnej wersji</h3>
+                    </div>
+                    <div class="list-group">
+                        <div class="list-item"><span>Modele relacyjne</span><span class="badge">gotowe</span></div>
+                        <div class="list-item"><span>Formularze zapisu</span><span class="badge">gotowe</span></div>
+                        <div class="list-item"><span>Widoki list danych</span><span class="badge">gotowe</span></div>
+                        <div class="list-item"><span>Bootstrap lokalnie</span><span class="badge">dodano</span></div>
+                        <div class="list-item"><span>Ikony SVG</span><span class="badge">dodano</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-<div class="grid" style="margin-top: 18px;">
-    <div class="menu-box">
-        <h3>Lekarze</h3>
-        <p>Dodawanie i przeglądanie lekarzy.</p>
-        <a class="button" href="/lekarze/dodaj/">Dodaj</a>
-        <a class="button secondary" href="/lekarze/">Pokaż listę</a>
+<section class="page-section">
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="toolbar-title">
+                <span class="kpi-icon"><svg class="icon icon-lg" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#person-badge"></use></svg></span>
+                <div>
+                    <div class="text-muted small">Lekarze w systemie</div>
+                    <div class="stat-value">{{ liczba_lekarzy }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="toolbar-title">
+                <span class="kpi-icon"><svg class="icon icon-lg" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#people-fill"></use></svg></span>
+                <div>
+                    <div class="text-muted small">Pacjenci</div>
+                    <div class="stat-value">{{ liczba_pacjentow }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="toolbar-title">
+                <span class="kpi-icon"><svg class="icon icon-lg" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#cpu-fill"></use></svg></span>
+                <div>
+                    <div class="text-muted small">Urządzenia</div>
+                    <div class="stat-value">{{ liczba_urzadzen }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="toolbar-title">
+                <span class="kpi-icon"><svg class="icon icon-lg" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#activity"></use></svg></span>
+                <div>
+                    <div class="text-muted small">Zapisane pomiary</div>
+                    <div class="stat-value">{{ liczba_pomiarow }}</div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="menu-box">
-        <h3>Pacjenci</h3>
-        <p>Dodawanie pacjentów przypisanych do lekarza.</p>
-        <a class="button" href="/pacjenci/dodaj/">Dodaj</a>
-        <a class="button secondary" href="/pacjenci/">Pokaż listę</a>
+</section>
+
+<section class="page-section">
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="section-title"><svg class="icon icon-lg" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#person-badge"></use></svg><h3 class="mb-0">Lekarze</h3></div>
+                    <p class="text-muted">Dodawanie i przeglądanie lekarzy.</p>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <a class="btn btn-primary btn-sm" href="/lekarze/dodaj/"><svg class="icon" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#plus-circle-fill"></use></svg>Dodaj</a>
+                        <a class="btn btn-outline-secondary btn-sm" href="/lekarze/"><svg class="icon" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#list-ul"></use></svg>Lista</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="section-title"><svg class="icon icon-lg" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#people-fill"></use></svg><h3 class="mb-0">Pacjenci</h3></div>
+                    <p class="text-muted">Pacjenci przypisani do lekarzy prowadzących.</p>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <a class="btn btn-primary btn-sm" href="/pacjenci/dodaj/"><svg class="icon" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#plus-circle-fill"></use></svg>Dodaj</a>
+                        <a class="btn btn-outline-secondary btn-sm" href="/pacjenci/"><svg class="icon" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#list-ul"></use></svg>Lista</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="section-title"><svg class="icon icon-lg" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#cpu-fill"></use></svg><h3 class="mb-0">Urządzenia</h3></div>
+                    <p class="text-muted">Wprowadzanie urządzeń i ich parametrów.</p>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <a class="btn btn-primary btn-sm" href="/urzadzenia/dodaj/"><svg class="icon" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#plus-circle-fill"></use></svg>Dodaj</a>
+                        <a class="btn btn-outline-secondary btn-sm" href="/urzadzenia/"><svg class="icon" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#list-ul"></use></svg>Lista</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="section-title"><svg class="icon icon-lg" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#activity"></use></svg><h3 class="mb-0">Pomiary</h3></div>
+                    <p class="text-muted">Zagregowane okna czasowe z HRV i ciśnieniem.</p>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <a class="btn btn-primary btn-sm" href="/pomiary/dodaj/"><svg class="icon" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#plus-circle-fill"></use></svg>Dodaj</a>
+                        <a class="btn btn-outline-secondary btn-sm" href="/pomiary/"><svg class="icon" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#list-ul"></use></svg>Lista</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="menu-box">
-        <h3>Urządzenia</h3>
-        <p>Dodawanie urządzeń pomiarowych.</p>
-        <a class="button" href="/urzadzenia/dodaj/">Dodaj</a>
-        <a class="button secondary" href="/urzadzenia/">Pokaż listę</a>
+</section>
+
+<section class="page-section">
+    <div class="card">
+        <div class="card-body">
+            <div class="section-header">
+                <div>
+                    <div class="section-title">
+                        <svg class="icon icon-lg" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#table"></use></svg>
+                        <h3 class="mb-0">Ostatnie pomiary</h3>
+                    </div>
+                    <p class="text-muted mb-0">Podgląd ostatnio zapisanych rekordów w bazie.</p>
+                </div>
+                <a class="btn btn-outline-secondary btn-sm" href="/pomiary/"><svg class="icon" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#list-ul"></use></svg>Pełna lista</a>
+            </div>
+            {% if ostatnie_pomiary %}
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Pacjent</th>
+                                <th>Urządzenie</th>
+                                <th>Okno</th>
+                                <th>Śr. tętno</th>
+                                <th>RMSSD</th>
+                                <th>SDNN</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for pomiar in ostatnie_pomiary %}
+                                <tr>
+                                    <td>{{ pomiar.pomiar_id }}</td>
+                                    <td>{{ pomiar.pacjent }}</td>
+                                    <td>{{ pomiar.urzadzenie }}</td>
+                                    <td><small>{{ pomiar.pomiar_start|date:"Y-m-d H:i" }} – {{ pomiar.pomiar_koniec|date:"H:i" }}</small></td>
+                                    <td>{{ pomiar.srednie_tetno }}</td>
+                                    <td>{{ pomiar.rmssd }}</td>
+                                    <td>{{ pomiar.sdnn }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <p class="mb-2"><strong>Brak danych do wyświetlenia.</strong></p>
+                    <p class="text-muted mb-3">Dodaj pierwsze rekordy przez formularze, aby zobaczyć listę pomiarów.</p>
+                    <a class="btn btn-primary" href="/pomiary/dodaj/"><svg class="icon" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#plus-circle-fill"></use></svg>Dodaj pierwszy pomiar</a>
+                </div>
+            {% endif %}
+        </div>
     </div>
-    <div class="menu-box">
-        <h3>Pomiary</h3>
-        <p>Wprowadzanie i wyświetlanie danych pomiarowych.</p>
-        <a class="button" href="/pomiary/dodaj/">Dodaj</a>
-        <a class="button secondary" href="/pomiary/">Pokaż listę</a>
-    </div>
-</div>
+</section>
 {% endblock %}

@@ -1,43 +1,42 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>System monitorowania kardiologicznego</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; background: #f7f3f8; color: #2b2131; }
-        header { background: #4f2f56; color: white; padding: 18px 28px; }
-        nav a { color: white; text-decoration: none; margin-right: 14px; font-weight: 600; }
-        main { padding: 28px; max-width: 1200px; margin: 0 auto; }
-        .card { background: white; border-radius: 14px; box-shadow: 0 3px 12px rgba(0,0,0,0.08); padding: 24px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
-        .menu-box { background: #fff; border-left: 5px solid #c55fdc; border-radius: 12px; padding: 18px; }
-        .menu-box h3 { margin-top: 0; }
-        a.button, button { display: inline-block; background: #7c3e88; color: white; padding: 10px 16px; border: none; border-radius: 10px; text-decoration: none; cursor: pointer; }
-        a.secondary { background: #a56ab0; }
-        table { width: 100%; border-collapse: collapse; margin-top: 16px; background: white; }
-        th, td { border-bottom: 1px solid #eadff0; padding: 10px; text-align: left; }
-        th { background: #f0e6f4; }
-        form p { margin-bottom: 14px; }
-        label { display: block; font-weight: bold; margin-bottom: 6px; }
-        input, select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #d6c3df; box-sizing: border-box; }
-        .errorlist { color: #b00020; }
-        .actions { margin: 12px 0 18px; display: flex; gap: 10px; flex-wrap: wrap; }
-    </style>
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
 </head>
 <body>
-    <header>
-        <h1>System monitorowania kardiologicznego</h1>
-        <nav>
-            <a href="/">Start</a>
-            <a href="/lekarze/">Lekarze</a>
-            <a href="/pacjenci/">Pacjenci</a>
-            <a href="/urzadzenia/">Urządzenia</a>
-            <a href="/pomiary/">Pomiary</a>
-        </nav>
-    </header>
-    <main>
+    <nav class="navbar">
+        <div class="container py-3 d-flex justify-content-between align-items-center gap-3">
+            <a class="navbar-brand" href="/">
+                <span class="brand-mark logo-pulse">
+                    <svg class="icon icon-lg" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#heart-pulse"></use></svg>
+                </span>
+                <span>
+                    System monitorowania kardiologicznego
+                    <span class="brand-subtitle d-block">Django + lokalne zasoby statyczne</span>
+                </span>
+            </a>
+            <div class="nav-scroll ms-auto">
+                <ul class="nav">
+                    <li><a class="nav-link{% if request.path == '/' %} active{% endif %}" href="/"><svg class="icon" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#house-fill"></use></svg>Start</a></li>
+                    <li><a class="nav-link{% if '/lekarze/' in request.path %} active{% endif %}" href="/lekarze/"><svg class="icon" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#person-badge"></use></svg>Lekarze</a></li>
+                    <li><a class="nav-link{% if '/pacjenci/' in request.path %} active{% endif %}" href="/pacjenci/"><svg class="icon" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#people-fill"></use></svg>Pacjenci</a></li>
+                    <li><a class="nav-link{% if '/urzadzenia/' in request.path %} active{% endif %}" href="/urzadzenia/"><svg class="icon" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#cpu-fill"></use></svg>Urządzenia</a></li>
+                    <li><a class="nav-link{% if '/pomiary/' in request.path %} active{% endif %}" href="/pomiary/"><svg class="icon" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#activity"></use></svg>Pomiary</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-4">
         {% block content %}{% endblock %}
+        <div class="footer-note text-center">Widoki zostały ostylowane lokalnym Bootstrapem i ikonami SVG ładowanymi z serwera aplikacji.</div>
     </main>
+
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 </body>
 </html>

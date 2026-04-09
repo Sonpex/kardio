@@ -1,34 +1,52 @@
 {% extends "monitoring/base.html" %}
+{% load static %}
 
 {% block content %}
-<div class="card">
-    <h2>{{ tytul }}</h2>
-    <div class="actions">
-        <a class="button" href="{{ create_url }}">Dodaj rekord</a>
-        <a class="button secondary" href="/">Powrót na start</a>
-    </div>
+<div class="card table-card shadow-sm">
+    <div class="card-body">
+        <div class="section-header">
+            <div>
+                <div class="section-title">
+                    <svg class="icon icon-lg" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#{{ ikonka|default:'table' }}"></use></svg>
+                    <h2 class="mb-0">{{ tytul }}</h2>
+                </div>
+                <p class="text-muted mb-0">{{ opis }}</p>
+            </div>
+            <div class="d-flex gap-2 flex-wrap">
+                <a class="btn btn-primary" href="{{ create_url }}"><svg class="icon" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#plus-circle-fill"></use></svg>Dodaj rekord</a>
+                <a class="btn btn-outline-secondary" href="/"><svg class="icon" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#arrow-left-circle-fill"></use></svg>Powrót na start</a>
+            </div>
+        </div>
 
-    {% if wiersze %}
-        <table>
-            <thead>
-                <tr>
-                    {% for kolumna in kolumny %}
-                        <th>{{ kolumna }}</th>
-                    {% endfor %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for wiersz in wiersze %}
-                    <tr>
-                        {% for wartosc in wiersz %}
-                            <td>{{ wartosc }}</td>
+        {% if wiersze %}
+            <div class="table-caption">Łącznie rekordów: <strong>{{ wiersze|length }}</strong></div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            {% for kolumna in kolumny %}
+                                <th>{{ kolumna }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for wiersz in wiersze %}
+                            <tr>
+                                {% for wartosc in wiersz %}
+                                    <td>{{ wartosc }}</td>
+                                {% endfor %}
+                            </tr>
                         {% endfor %}
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>Brak danych do wyświetlenia.</p>
-    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <p class="mb-2"><strong>Brak danych do wyświetlenia.</strong></p>
+                <p class="text-muted mb-3">Dodaj pierwszy rekord dla tej encji, aby zobaczyć go w tabeli.</p>
+                <a class="btn btn-primary" href="{{ create_url }}"><svg class="icon" aria-hidden="true"><use href="{% static 'vendor/bootstrap-icons/bootstrap-icons.svg' %}#plus-circle-fill"></use></svg>Dodaj pierwszy rekord</a>
+            </div>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

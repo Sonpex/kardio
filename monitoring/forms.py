@@ -6,13 +6,25 @@ class DateTimeLocalInput(forms.DateTimeInput):
     input_type = "datetime-local"
 
 
-class LekarzForm(forms.ModelForm):
+class BootstrapFormMixin:
+    """Nadaje polom klasy zgodne z lokalnie serwowanym Bootstrapem."""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for name, field in self.fields.items():
+            css_class = "form-select" if isinstance(field.widget, (forms.Select, forms.SelectMultiple)) else "form-control"
+            existing = field.widget.attrs.get("class", "")
+            field.widget.attrs["class"] = f"{existing} {css_class}".strip()
+            field.widget.attrs.setdefault("placeholder", field.label)
+
+
+class LekarzForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = Lekarz
         fields = ["imie", "nazwisko", "specjalizacja"]
 
 
-class PacjentForm(forms.ModelForm):
+class PacjentForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = Pacjent
         fields = ["lekarz", "imie", "nazwisko", "data_urodzenia", "plec", "pesel"]
@@ -21,13 +33,13 @@ class PacjentForm(forms.ModelForm):
         }
 
 
-class UrzadzenieForm(forms.ModelForm):
+class UrzadzenieForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = Urzadzenie
         fields = ["nazwa", "typ_urzadzenia", "producent", "model", "numer_seryjny"]
 
 
-class PomiarForm(forms.ModelForm):
+class PomiarForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = Pomiar
         fields = [
